@@ -1,0 +1,40 @@
+<html>
+<head></head>
+<body>
+    <div>
+        <label for="name">Account name: </label>
+        <input type="text" name="name1" id="name" placeholder="Name of the account" value="">
+    </div>
+    <div>
+        <label for="phone">Phone number: </label>
+        <input type="text" name="phone" id="phone" placeholder="Phone of the account" value="">
+    </div>
+    <button type="button" id="updateaccountbutton">Update account</button>
+</body>
+<script>
+    // Get the value from input account name
+    document.getElementById("updateaccountbutton").addEventListener("click", function() {
+        var accountid = parent.Xrm.Page.data.entity.getId();
+        var accountName = document.getElementById("name").value;
+        var phoneNumber = document.getElementById("phone").value;
+        // define the data to update a record
+        var data =
+            {
+                "name": accountName,
+                "telephone1": phoneNumber
+            }
+// update the record
+        parent.Xrm.WebApi.updateRecord("account", accountid, data).then(
+            function success(result) {
+                parent.Xrm.Page.data.refresh(false)
+                // perform operations on record update
+            },
+            function (error) {
+                console.log(error.message);
+                // handle error conditions
+            }
+        );
+    })
+
+</script>
+</html>
